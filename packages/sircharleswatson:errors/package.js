@@ -10,13 +10,13 @@ Package.onUse(function(api, where) {
   api.use(['minimongo', 'mongo-livedata', 'templating'], 'client');
 
   api.addFiles(['errors.js', 'errors_list.html', 'errors_list.js'], 'client');
-  
+
   if (api.export)
     api.export('Errors');
 });
 
 Package.onTest(function(api) {
-  api.use('tinytest');
-  api.use('sircharleswatson:errors');
-  api.addFiles('sircharleswatson:errors-tests.js');
+  api.use(['tinytest', 'test-helpers'], 'client');
+  api.use('sircharleswatson:errors', 'client');
+  api.addFiles('errors-tests.js', 'client');
 });
