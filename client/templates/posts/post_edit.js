@@ -9,12 +9,22 @@ Template.postEdit.events({
       title: $(e.target).find('[name=title]').val()
     };
 
-    Posts.update(currentPostId, {$set: postProperties}, function(error) {
-      if (error) {
-        //display the error to the user
-        alert(error.reason);
+    Meteor.call('postUpdate', postProperties, function(error, result) {
+      // display the error to the user
+      if (error)
+        return alert(error.reason);
+
+      if (result.postExists) {
+        return alert("This URL is already linked");
       } else {
-        Router.go('postPage', {_id: currentPostId});
+        Posts.update(currentPostId, {$set: postProperties}, function(error) {
+          if (error) {
+            //display the error to the user
+            alert(error.reason);
+          } else {
+            Router.go('postPage', {_id: currentPostId});
+          }
+        });
       }
     });
   },
