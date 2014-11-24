@@ -29,15 +29,15 @@ Template.postEdit.events({
     Meteor.call('postUpdate', postProperties, function(error, result) {
       // display the error to the user
       if (error)
-        return alert(error.reason);
+        return Errors.throw(error.reason);
 
       if (result.postExists) {
-        return throwError("This URL is already linked");
+        return Errors.throw("This URL is already linked");
       } else {
         Posts.update(currentPostId, {$set: postProperties}, function(error) {
           if (error) {
             //display the error to the user
-            throwError(error.reason);
+            Errors.throw(error.reason);
           } else {
             Router.go('postPage', {_id: currentPostId});
           }
