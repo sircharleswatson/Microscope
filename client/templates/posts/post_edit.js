@@ -26,23 +26,15 @@ Template.postEdit.events({
     if (errors.title || errors.url)
       return Session.set('postEditErrors', errors);
 
-    Meteor.call('postUpdate', postProperties, function(error, result) {
+    Meteor.call('postUpdate', currentPostId, postProperties, function(error, result) {
       // display the error to the user
       if (error)
         return Errors.throw(error.reason);
 
-      if (result.postExists) {
+      if (result.postExists)
         return Errors.throw("This URL is already linked");
-      } else {
-        Posts.update(currentPostId, {$set: postProperties}, function(error) {
-          if (error) {
-            //display the error to the user
-            Errors.throw(error.reason);
-          } else {
-            Router.go('postPage', {_id: currentPostId});
-          }
-        });
-      }
+
+      Router.go('postPage', {_id: result._id});
     });
   },
 
