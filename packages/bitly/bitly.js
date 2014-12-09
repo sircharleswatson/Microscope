@@ -15,7 +15,7 @@ Bitly.shortenURL = function(url) {
       }
     });
     if (shortenResponse.statusCode === 200) {
-      return shortenResponse.date.data.url;
+      return shortenResponse.data.data.url;
     } else {
       throw new Meteor.Error(500,
         "Bitly call failed with error: "+shortenResponse.status_txt);

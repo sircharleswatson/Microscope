@@ -26,8 +26,9 @@ Template.postSubmit.events({
 
     Meteor.call('postInsert', post, function(error, result) {
       // display the error to the user and abort
-      if (error)
+      if (error) {
         Errors.throw(error.reason);
+      }
 
       if (result.postExists)
         Errors.throw('This link has already been posted');
